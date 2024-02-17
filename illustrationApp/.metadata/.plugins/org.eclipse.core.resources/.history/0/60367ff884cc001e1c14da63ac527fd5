@@ -1,0 +1,6 @@
+package com.example.illustrationApp.entity;
+
+@Entity
+public class User {
+
+}

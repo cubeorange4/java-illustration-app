@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.illustrationApp.entity.Illustration;
+import com.example.illustrationApp.form.IllustrationRegisterForm;
 import com.example.illustrationApp.repository.IllustrationRepository;
 
 @Controller
@@ -28,5 +29,12 @@ public class IllustrationController {
 		model.addAttribute("illustration", illustration);
 		
 		return "illustration/index";
+	}
+	
+	@GetMapping("/register")
+	public String register(Model model) {
+		model.addAttribute("illustrationEditForm", new IllustrationRegisterForm());
+		
+		return "illustration/register";
 	}
 }
