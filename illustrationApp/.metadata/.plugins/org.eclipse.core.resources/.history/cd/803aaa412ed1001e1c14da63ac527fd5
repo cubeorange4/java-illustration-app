@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		
+		<div th:replace="~{fragment :: styles}"></div>
+		
+		<title>会員情報</title>
+	</head>
+	<body>
+		<div class="app-wrapper">
+			<!-- ヘッダー -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<main>
+				<div class="container pt-4 pd-5 app-container">
+					<div class="row justify-content-center">
+						<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0">
+								<li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
+								<li class="breadcrumb-item active" aria-current="page">会員情報</li>
+							</ol>
+						</nav>
+						
+						<h1 class="mb-3 text-center">会員情報</h1>
+						<div class="d-flex justify-content-end align-items-end mb-3">
+							<div>
+								<a th:href="@{/user/edit}">編集</a>
+							</div>
+						</div>
+						
+						<div class="d-flex justify-content-center my-4">
+							<a href="#" class="btn shadow-sm w-25 samuraitravel-btn" data-bs-toggle="modal" th:data-bs-target="${'#deleteUserModal' + user.getId()}">退会</a>
+						</div>
+						
+						<!-- 削除用モーダル -->
+						<div class="modal fade" th:id="${'deleteUserModal' + user.getId()}" tabindex="-1" th:aria-labelledby="${'deleteUserModalLabel' + user.getId()}">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" th:id="${'deleteUserModalLabel' + user.getId()}">データは失われますがよろしいでしょうか？</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+									</div>
+									<div class="modal-footer">
+										<form method="post"th:action="@{user/__${user.getId()}__/delete}">
+											<button type="submit" class="btn app-btn-danger shadow-sm">退会</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+			<!-- フッター -->
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+		
+		<!-- Bootstrap -->
+		<div th:replace="~{fragment :: scripts}"></div>
+	</body>
+</html>

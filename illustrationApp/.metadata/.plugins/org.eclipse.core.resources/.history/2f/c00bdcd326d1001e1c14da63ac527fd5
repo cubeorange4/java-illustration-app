@@ -1,0 +1,5 @@
+package com.example.illustrationApp.entity;
+
+public class Role {
+
+}

@@ -45,6 +45,8 @@
 							<!-- ログイン済みであれば表示する -->
 							<li class="nav-item dropdown" sec:authorize="isAuthenticated()">
 								<div>
+									<a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/user}">会員情報</a>
+									
 									<a class="nav-link activ" th:href="@{/logout}"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 										ログアウト
 									</a>
