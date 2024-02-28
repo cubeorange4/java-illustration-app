@@ -25,7 +25,7 @@
 						<h1 class="text-center mb-3">イラスト一覧</h1>
 						<div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">
 							<div class="col" th:each="illustration : ${illustration}">
-								<a href="#" class="link-dark app-card-link">
+								<a th:href="@{/illustration/__${illustration.getId()}__}" class="link-dark app-card-link">
 									<div class="card h-100">
 										<img th:if="${illustration.getImageName()}" th:src="@{/storage/__${illustration.getImageName()}__}" class="card-img-top app-vertical-card-image" alt="イラスト">
 										<div class="card-body">

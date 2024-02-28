@@ -11,6 +11,14 @@ INSERT IGNORE INTO illustration (id, user_id, name, image_name, description, sta
 INSERT IGNORE INTO illustration (id, user_id, name, image_name, description, start_date, finish_date) VALUES(11, 1, 'test', 'house01.jpg', 'test', '2023-01-01', '2024-01-01');
 INSERT IGNORE INTO illustration (id, user_id, name, image_name, description, start_date, finish_date) VALUES(12, 1, 'test', 'house01.jpg', 'test', '2023-01-01', '2024-01-01');
 
+INSERT IGNORE INTO category (id, user_id, name) VALUES(1, 1, 'house');
+INSERT IGNORE INTO category (id, user_id, name) VALUES(2, 1, '家');
+INSERT IGNORE INTO category (id, user_id, name) VALUES(3, 1, 'home');
+
+INSERT IGNORE INTO category_info (id, category_id, illustration_id) VALUES(1, 1, 1);
+INSERT IGNORE INTO category_info (id, category_id, illustration_id) VALUES(2, 2, 1);
+INSERT IGNORE INTO category_info (id, category_id, illustration_id) VALUES(3, 3, 1);
+
 INSERT IGNORE INTO roles (id, name) VALUES (1, 'ROLE_GENERAL');
 INSERT IGNORE INTO roles (id, name) VALUES (2, 'ROLE_ADMIN');
 

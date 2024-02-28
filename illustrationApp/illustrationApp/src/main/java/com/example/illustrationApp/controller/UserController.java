@@ -1,6 +1,7 @@
 package com.example.illustrationApp.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.illustrationApp.entity.User;
 import com.example.illustrationApp.repository.UserRepository;
 import com.example.illustrationApp.security.UserDetailsImpl;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/user")
@@ -31,8 +34,12 @@ public class UserController {
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, RedirectAttributes redirectAttributes) {
+	public String delete(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		User user = userRepository.getReferenceById(userDetailsImpl.getUser().getId());
+		
+		request.getSession().invalidate();
+		
+		SecurityContextHolder.clearContext();
 		
 		userRepository.delete(user);
 		
