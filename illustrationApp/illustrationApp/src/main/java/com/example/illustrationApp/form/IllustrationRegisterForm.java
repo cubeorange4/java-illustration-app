@@ -14,6 +14,8 @@ public class IllustrationRegisterForm {
 	
 	private String description;
 	
+	private Integer categoryId;
+	
 	@NotBlank(message = "作成開始日を入力してください")
 	private String startDate;
 	
