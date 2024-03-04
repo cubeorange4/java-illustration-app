@@ -10,6 +10,7 @@ public class IllustrationRegisterForm {
 	@NotBlank(message = "タイトルを入力してください")
 	private String name;
 	
+	@NotBlank(message = "ファイルを選択してください")
 	private MultipartFile imageFile;
 	
 	private String description;
