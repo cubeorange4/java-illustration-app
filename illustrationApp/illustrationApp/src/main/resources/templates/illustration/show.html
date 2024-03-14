@@ -15,18 +15,58 @@
 			<main>
 				<div class="container pt-4 pd-5 app-container">
 					<div class="row justify-content-center">
-						<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0">
-								<li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
-								<li class="breadcrumb-item active"><a th:href = "@{/illustration}">イラスト一覧</a></li>
-								<li class="breadcrumb-item active" th:text="${illustration.getName()}" aria-current="page"></li>
-							</ol>
-						</nav>
+						<div class="col-xxl-9 col-xl-10 col-lg-11">
+							<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+								<ol class="breadcrumb mb-0">
+									<li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
+									<li class="breadcrumb-item active"><a th:href = "@{/illustration}">イラスト一覧</a></li>
+									<li class="breadcrumb-item active" th:text="${illustration.getName()}" aria-current="page"></li>
+								</ol>
+							</nav>
 						
-						<h1 class="text-center mb-3" th:text="${illustration.getName}"></h1>
+							<h1 class="text-center mb-3" th:text="${illustration.getName}"></h1>
 						
-						
-					</div>
+							<div class="mb-4">
+								<img th:if="${illustration.getImageName()}" th:src="@{/storage/__${illustration.getImageName()}__}" class="w-100" alt="画像">
+							</div>
+							
+							<div class="container">
+								<div class="row">
+									<div class="col-lg-8 container mb-4">
+										<div class="row pb-2 mb-2 border-bottom">
+											<div class="col-4">
+												<span class="fw-bold">メモ</span>
+											</div>
+											
+											<div class="col">
+												<span th:text="${illustration.getDescription()}"></span>
+											</div>
+										</div>
+										
+										<div class="row pb-2 mb-2 border-bottom">
+											<div class="col-4">
+												<span class="fw-bold">作成開始日時</span>
+											</div>
+											
+											<div class="col">
+												<span th:text="${#dates.format(illustration.startDate, 'yyyy-MM-dd')}"></span>
+											</div>
+										</div>
+										
+										<div class="row pb-2 mb-2 border-bottom">
+											<div class="col-4">
+												<span class="fw-bold">完成日時</span>
+											</div>
+											
+											<div class="col">
+												<span th:text="${#dates.format(illustration.finishDate, 'yyyy-MM-dd')}"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<div class="col-xxl-9 col-xl-10 col-lg-11">
 				</div>
 			</main>
 			<!-- フッター -->

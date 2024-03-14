@@ -21,6 +21,8 @@ html {
    box-sizing: border-box;
  }
  
+ 
+ 
  @media screen and (min-width: 1400px) {
    .app-container {
      max-width: 1200px;

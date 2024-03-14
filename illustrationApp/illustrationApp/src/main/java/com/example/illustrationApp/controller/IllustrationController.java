@@ -9,9 +9,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.illustrationApp.entity.Category;
 import com.example.illustrationApp.entity.Illustration;
@@ -20,15 +25,18 @@ import com.example.illustrationApp.form.IllustrationRegisterForm;
 import com.example.illustrationApp.repository.CategoryRepository;
 import com.example.illustrationApp.repository.IllustrationRepository;
 import com.example.illustrationApp.security.UserDetailsImpl;
+import com.example.illustrationApp.service.IllustrationService;
 
 @Controller
 @RequestMapping("/illustration")
 public class IllustrationController {
 	private final IllustrationRepository illustrationRepository;
+	private final IllustrationService illustrationService;
 	private final CategoryRepository categoryRepository;
 	
-	public IllustrationController(IllustrationRepository illustrationRepository, CategoryRepository categoryRepository) {
+	public IllustrationController(IllustrationRepository illustrationRepository, IllustrationService illustrationService, CategoryRepository categoryRepository) {
 		this.illustrationRepository = illustrationRepository;
+		this.illustrationService = illustrationService;
 		this.categoryRepository = categoryRepository;
 	}
 	
@@ -55,9 +63,23 @@ public class IllustrationController {
 	public String register(Model model) {
 		List<Category> category = categoryRepository.findAll();
 		
-		model.addAttribute("illustrationEditForm", new IllustrationRegisterForm());
+		model.addAttribute("illustrationRegisterForm", new IllustrationRegisterForm());
 		model.addAttribute("category", category);
 		
 		return "illustration/register";
+	}
+	
+	@PostMapping("/create")
+	public String create(@ModelAttribute @Validated IllustrationRegisterForm illustrationRegisterForm, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		User user = userDetailsImpl.getUser();
+		
+		if(bindingResult.hasErrors()) {
+			return "/illustration/register";
+		}
+		
+		illustrationService.create(illustrationRegisterForm, user);
+		redirectAttributes.addFlashAttribute("successMessage", "イラストを登録しました。");
+		
+		return "redirect:/illustration";
 	}
 }

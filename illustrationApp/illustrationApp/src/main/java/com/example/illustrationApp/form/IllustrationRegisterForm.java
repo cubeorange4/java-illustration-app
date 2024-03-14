@@ -3,6 +3,7 @@ package com.example.illustrationApp.form;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -10,12 +11,12 @@ public class IllustrationRegisterForm {
 	@NotBlank(message = "タイトルを入力してください")
 	private String name;
 	
-	@NotBlank(message = "ファイルを選択してください")
+	@NotNull(message = "ファイルを選択してください")
 	private MultipartFile imageFile;
 	
 	private String description;
 	
-	private Integer categoryId;
+	private String categoryId;
 	
 	@NotBlank(message = "作成開始日を入力してください")
 	private String startDate;

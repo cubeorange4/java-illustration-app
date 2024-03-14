@@ -31,22 +31,55 @@ public class IllustrationService {
 		Illustration illustration = new Illustration();
 		MultipartFile imageFile = illustrationRegisterForm.getImageFile();
 		
-		LocalDate localStartDate = LocalDate.parse(illustrationRegisterForm.getStartDate(), DateTimeFormatter.ofPattern("MM:dd"));
+		Integer categoryA = null;
+		Integer categoryB = null;
+		Integer categoryC = null;
+		Integer categoryD = null;
+		Integer categoryE = null;
 		
-        Date StartDate = Date.valueOf(localStartDate);
-
+		String[] categoryId = illustrationRegisterForm.getCategoryId().split(",");
 		
-		if (!imageFile.isEmpty()) {
-			String imageName = imageFile.getOriginalFilename();
-			String hashedImageName = generateNewFileName(imageName);
-			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
-			copyImageFile(imageFile, filePath);
-			illustration.setImageName(hashedImageName);
+		if (categoryId.length >= 1) {
+			categoryA = Integer.parseInt(categoryId[0]);
+		}
+		if (categoryId.length >= 2) {
+			categoryB = Integer.parseInt(categoryId[1]);
+		}
+		if (categoryId.length >= 3) {
+			categoryC = Integer.parseInt(categoryId[2]);
+		}
+		if (categoryId.length >= 4) {
+			categoryD = Integer.parseInt(categoryId[3]);
+		}
+		if (categoryId.length >= 5) {
+			categoryE = Integer.parseInt(categoryId[4]);
 		}
 		
+		LocalDate localStartDate = LocalDate.parse(illustrationRegisterForm.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate localFinishDate = LocalDate.parse(illustrationRegisterForm.getFinishDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		Date startDate = Date.valueOf(localStartDate);
+		Date finishDate = Date.valueOf(localFinishDate);
+		
+		
+		String imageName = imageFile.getOriginalFilename();
+		String hashedImageName = generateNewFileName(imageName);
+		Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+		copyImageFile(imageFile, filePath);
+		illustration.setImageName(hashedImageName);
+		
 		illustration.setName(illustrationRegisterForm.getName());
+		illustration.setUser(user);
+		illustration.setCategoryA(categoryA);
+		illustration.setCategoryB(categoryB);
+		illustration.setCategoryC(categoryC);
+		illustration.setCategoryD(categoryD);
+		illustration.setCategoryE(categoryE);
 		illustration.setDescription(illustrationRegisterForm.getDescription());
-		illustration.setStartDate(StartDate);
+		illustration.setStartDate(startDate);
+		illustration.setFinishDate(finishDate);
+		
+		illustrationRepository.save(illustration);
 	}
 	
 	public String generateNewFileName(String fileName) {

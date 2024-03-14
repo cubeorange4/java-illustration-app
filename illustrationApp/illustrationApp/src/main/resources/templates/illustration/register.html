@@ -15,6 +15,7 @@
 			<main>
 				<div class="container pt-4 pd-5 app-container">
 					<div class="row justify-content-center">
+						<div class="col-xl-5 col-lg-6 col-md-8">
 						<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0">
 								<li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
@@ -24,6 +25,7 @@
 						</nav>
 						
 						<h1 class="text-center mb-3">イラストの登録</h1>
+						
 						<form method="post" th:action="@{/illustration/create}" th:object=${illustrationRegisterForm} enctype="multipart/form-data">
 							<div class="form-group row mb-3">
 								<div class="col-md-4">
@@ -53,8 +55,7 @@
 									<label for="name" class="col-form-label text-md-left fw-bold">タグ</label>
 								</div>
 								<div class="col-md-8">
-									<div th:if="${#fields.hasErrors('categoryId')}" class="text-danger small mb-2" th:errors="*{categoryId}"></div>
-									<input type="text" class="form-control" th:field="*{categoryId}" autofocus>
+									<input type="checkbox" th:each="category : ${category}"  th:value="${category.getId()}" th:text="${category.getName()}" name="categoryId" th:field="*{categoryId}">
 								</div>
 							</div>
 							
@@ -63,11 +64,36 @@
 									<label for="description" class="col-form-label text-md-left fw-bold">メモ</label>
 								</div>
 								<div class="col-md-8">
-									<div th:if="${#fields.hasErrors('descrption')}" class="text-danger small mb-2" th:errors="*{description}"></div>
+									<div th:if="${#fields.hasErrors('description')}" class="text-danger small mb-2" th:errors="*{description}"></div>
 									<input type="text" class="form-control" th:field="*{description}" autofocus>
 								</div>
 							</div>
+							
+							<div class="form-group row mb-3">
+								<div class="col-md-4">
+									<label for="startDate" class="col-form-label text-md-left fw-bold">作成開始日時</label>
+								</div>
+								<div class="col-md-8">
+									<div th:if="${#fields.hasErrors('startDate')}" class="text-danger small mb-2" th:errors="*{startDate}"></div>
+									<input type="date" class="form-control" th:field="*{startDate}" autofocus>
+								</div>
+							</div>
+							
+							<div class="form-group row mb-3">
+								<div class="col-md-4">
+									<label for="finishDate" class="col-form-label text-md-left fw-bold">完成日時</label>
+								</div>
+								<div class="col-md-8">
+									<div th:if="${#fields.hasErrors('finishDate')}" class="text-danger small mb-2" th:errors="*{finishDate}"></div>
+									<input type="date" class="form-control" th:field="*{finishDate}" autofocus>
+								</div>
+							</div>
+							
+							<div class="form-group d-flex justify-content-center my-4">
+								<button type="submit" class="btn shadow-sm w-50 ">登録</button>
+							</div>
 						</form>
+					</div>
 					</div>
 				</div>
 			</main>
@@ -77,5 +103,6 @@
 		
 		<!-- Bootstrap -->
 		<div th:replace="~{fragment :: scripts}"></div>
+		<script th:src="@{/js/preview.js}"></script>
 	</body>
 </html>
