@@ -36,9 +36,6 @@
     <fullyQualifiedTypeName name="java.sql.Timestamp"/>
     <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
     <fullyQualifiedTypeName name="com.example.illustrationApp.entity.CategoryInfo"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
-    <fullyQualifiedTypeName name="com.example.illustrationApp.entity.Category"/>
-    <fullyQualifiedTypeName name="com.example.illustrationApp.repository.CategoryRepository"/>
     <fullyQualifiedTypeName name="com.example.illustrationApp.repository.IllustrationRepository"/>
     <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
     <fullyQualifiedTypeName name="com.example.illustrationApp.form.IllustrationRegisterForm"/>
@@ -60,4 +57,7 @@
     <fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.support.RedirectAttributes"/>
     <fullyQualifiedTypeName name="com.example.illustrationApp.service.IllustrationService"/>
     <fullyQualifiedTypeName name="jakarta.validation.constraints.NotNull"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.example.illustrationApp.repository.CategoryRepository"/>
+    <fullyQualifiedTypeName name="com.example.illustrationApp.entity.Category"/>
 </qualifiedTypeNameHistroy>

@@ -66,4 +66,24 @@ public class Illustration {
 	
 	@Column(name = "updated_at", insertable = false, updatable = false)
 	private Timestamp updatedAt;
+	
+	public void setCategoryA(Category categoryA) {
+        this.categoryA = categoryA;
+    }
+
+    public void setCategoryB(Category categoryB2) {
+        this.categoryB = categoryB2;
+    }
+
+    public void setCategoryC(Category categoryC) {
+        this.categoryC = categoryC;
+    }
+
+    public void setCategoryD(Category categoryD) {
+        this.categoryD = categoryD;
+    }
+
+    public void setCategoryE(Category categoryE) {
+        this.categoryE = categoryE;
+    }
 }

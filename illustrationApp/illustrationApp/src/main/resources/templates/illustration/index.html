@@ -23,6 +23,11 @@
 						</nav>
 						
 						<h1 class="text-center mb-3">イラスト一覧</h1>
+						
+						<div th:if="${successMessage}" class="alert alert-info">
+							<span th:text="${successMessage}"></span>
+						</div>
+						
 						<div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">
 							<div class="col" th:each="illustration : ${illustration}">
 								<a th:href="@{/illustration/__${illustration.getId()}__}" class="link-dark app-card-link">

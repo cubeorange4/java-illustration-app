@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		
+		<div th:replace="~{fragment :: styles}"></div>
+		
+		<title>タグ一覧</title>
+	</head>
+	<body>
+		<div class="app-wrapper">
+			<!-- ヘッダー -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<main>
+				<div class="container pt-4 pd-5 app-container">
+					<div class="row justify-content-center">
+						<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0">
+								<li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
+								<li class="breadcrumb-item active" aria-current="page">タグ一覧</li>
+							</ol>
+						</nav>
+						
+						<h1 class="text-center mb-3">タグ一覧</h1>
+						
+						<div class="d-flex justify-content-end">
+							<a th:href="@{/category/register}" class="btn shadow-sm mb-3 app-btn">登録</a>
+						</div>
+						
+						<div th:if="${successMessage}" class="alert alert-info">
+							<span th:text="${successMessage}"></span>
+						</div>
+						
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">タグ</th>
+									<th scope="col"></th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="category : ${category}">
+									<td th:text="${category.getName()}"></td>
+									<td><a href="#">編集</a></td>
+									<td><a href="#">削除</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</main>
+			<!-- フッター -->
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+		
+		<!-- Bootstrap -->
+		<div th:replace="~{fragment :: scripts}"></div>
+	</body>
+</html>

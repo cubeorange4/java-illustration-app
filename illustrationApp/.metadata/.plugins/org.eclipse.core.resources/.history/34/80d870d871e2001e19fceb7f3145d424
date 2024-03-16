@@ -1,0 +1,23 @@
+package com.example.illustrationApp.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.illustrationApp.repository.CategoryRepository;
+
+@Controller
+@RequestMapping("/category")
+public class CategoryController {
+	private final CategoryRepository categoryRepository;
+	
+	public CategoryController(CategoryRepository categoryRepository){
+		this.categoryRepository = categoryRepository;
+	}
+	
+	@GetMapping
+	public String index(Model model) {
+		
+	}
+}

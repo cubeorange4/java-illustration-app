@@ -1,0 +1,107 @@
+package com.example.illustrationApp.service;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.illustrationApp.entity.Category;
+import com.example.illustrationApp.entity.Illustration;
+import com.example.illustrationApp.entity.User;
+import com.example.illustrationApp.form.IllustrationRegisterForm;
+import com.example.illustrationApp.repository.CategoryRepository;
+import com.example.illustrationApp.repository.IllustrationRepository;
+
+@Service
+public class IllustrationService {
+	public final IllustrationRepository illustrationRepository;
+	
+	public IllustrationService(IllustrationRepository illustrationRepository) {
+		this.illustrationRepository = illustrationRepository;
+	}
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	@Transactional
+	public void create (IllustrationRegisterForm illustrationRegisterForm, User user) {
+		Illustration illustration = new Illustration();
+		MultipartFile imageFile = illustrationRegisterForm.getImageFile();
+		
+		Category categoryA = null;
+		Category categoryB = null;
+		Category categoryC = null;
+		Category categoryD = null;
+		Category categoryE = null;
+		
+		String[] categoryId = illustrationRegisterForm.getCategoryId().split(",");
+		
+		if (categoryId.length >= 1) {
+			categoryA = categoryRepository.findById(Integer.parseInt(categoryId[0])).orElse(null);
+		}
+		if (categoryId.length >= 2) {
+			categoryB = categoryRepository.findById(Integer.parseInt(categoryId[1])).orElse(null);
+		}
+		if (categoryId.length >= 3) {
+			categoryC = categoryRepository.findById(Integer.parseInt(categoryId[2])).orElse(null);
+		}
+		if (categoryId.length >= 4) {
+			categoryD = categoryRepository.findById(Integer.parseInt(categoryId[3])).orElse(null);
+		}
+		if (categoryId.length >= 5) {
+			categoryE = categoryRepository.findById(Integer.parseInt(categoryId[4])).orElse(null);
+		}
+		
+		LocalDate localStartDate = LocalDate.parse(illustrationRegisterForm.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate localFinishDate = LocalDate.parse(illustrationRegisterForm.getFinishDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		Date startDate = Date.valueOf(localStartDate);
+		Date finishDate = Date.valueOf(localFinishDate);
+		
+		
+		String imageName = imageFile.getOriginalFilename();
+		String hashedImageName = generateNewFileName(imageName);
+		Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+		copyImageFile(imageFile, filePath);
+		illustration.setImageName(hashedImageName);
+		
+		illustration.setName(illustrationRegisterForm.getName());
+		illustration.setUser(user);
+		illustration.setCategoryA(categoryA);
+		illustration.setCategoryB(categoryB);
+		illustration.setCategoryC(categoryC);
+		illustration.setCategoryD(categoryD);
+		illustration.setCategoryE(categoryE);
+		illustration.setDescription(illustrationRegisterForm.getDescription());
+		illustration.setStartDate(startDate);
+		illustration.setFinishDate(finishDate);
+		
+		illustrationRepository.save(illustration);
+	}
+	
+	public String generateNewFileName(String fileName) {
+		String[] fileNames = fileName.split("\\.");
+		for (int i = 0; i < fileNames.length - 1; i++) {
+			fileNames[i] = UUID.randomUUID().toString();
+		}
+		String hashedFileName = String.join(".", fileNames);
+		return hashedFileName;
+	}
+	
+	public void copyImageFile(MultipartFile imageFile, Path filePath) {
+		try {
+			Files.copy(imageFile.getInputStream(), filePath);
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

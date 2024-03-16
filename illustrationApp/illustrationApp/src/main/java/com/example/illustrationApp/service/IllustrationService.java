@@ -7,23 +7,28 @@ import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.illustrationApp.entity.Category;
 import com.example.illustrationApp.entity.Illustration;
 import com.example.illustrationApp.entity.User;
 import com.example.illustrationApp.form.IllustrationRegisterForm;
+import com.example.illustrationApp.repository.CategoryRepository;
 import com.example.illustrationApp.repository.IllustrationRepository;
 
 @Service
 public class IllustrationService {
 	public final IllustrationRepository illustrationRepository;
+	public final CategoryRepository categoryRepository;
 	
-	public IllustrationService(IllustrationRepository illustrationRepository) {
+	public IllustrationService(IllustrationRepository illustrationRepository, CategoryRepository categoryRepository) {
 		this.illustrationRepository = illustrationRepository;
+		this.categoryRepository = categoryRepository;
 	}
 	
 	@Transactional
@@ -31,28 +36,28 @@ public class IllustrationService {
 		Illustration illustration = new Illustration();
 		MultipartFile imageFile = illustrationRegisterForm.getImageFile();
 		
-		Integer categoryA = null;
-		Integer categoryB = null;
-		Integer categoryC = null;
-		Integer categoryD = null;
-		Integer categoryE = null;
+		Category categoryA = null;
+		Category categoryB = null;
+		Category categoryC = null;
+		Category categoryD = null;
+		Category categoryE = null;
 		
 		String[] categoryId = illustrationRegisterForm.getCategoryId().split(",");
 		
 		if (categoryId.length >= 1) {
-			categoryA = Integer.parseInt(categoryId[0]);
+			categoryA = categoryRepository.findById(Integer.parseInt(categoryId[0])).orElse(null);
 		}
 		if (categoryId.length >= 2) {
-			categoryB = Integer.parseInt(categoryId[1]);
+			categoryB = categoryRepository.findById(Integer.parseInt(categoryId[1])).orElse(null);
 		}
 		if (categoryId.length >= 3) {
-			categoryC = Integer.parseInt(categoryId[2]);
+			categoryC = categoryRepository.findById(Integer.parseInt(categoryId[2])).orElse(null);
 		}
 		if (categoryId.length >= 4) {
-			categoryD = Integer.parseInt(categoryId[3]);
+			categoryD = categoryRepository.findById(Integer.parseInt(categoryId[3])).orElse(null);
 		}
 		if (categoryId.length >= 5) {
-			categoryE = Integer.parseInt(categoryId[4]);
+			categoryE = categoryRepository.findById(Integer.parseInt(categoryId[4])).orElse(null);
 		}
 		
 		LocalDate localStartDate = LocalDate.parse(illustrationRegisterForm.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -80,6 +85,17 @@ public class IllustrationService {
 		illustration.setFinishDate(finishDate);
 		
 		illustrationRepository.save(illustration);
+	}
+	
+	@Transactional
+	public void categoryDelete(Integer id) {
+		Category category = categoryRepository.getReferenceById(id);
+		List<Illustration> illustrationCategoryA = illustrationRepository.findByCategoryA(category);
+		
+		for (Illustration illustration : illustrationCategoryA) {
+	        illustration.setCategoryA(null);
+	        illustrationRepository.save(illustration);
+	    }
 	}
 	
 	public String generateNewFileName(String fileName) {
