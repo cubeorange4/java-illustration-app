@@ -1,0 +1,28 @@
+package com.example.illustrationApp.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.example.illustrationApp.entity.Album;
+import com.example.illustrationApp.repository.AlbumRepository;
+
+@Controller
+public class AlbumController {
+	private final AlbumRepository albumRepository;
+	
+	public AlbumController(AlbumRepository albumRepository){
+		this.albumRepository = albumRepository;
+	}
+	
+	@GetMapping("/album")
+	public String index(Model model) {
+		List<Album> album = albumRepository.findAll();
+		
+		model.addAttribute("album", album);
+		
+		return "album/index";
+	}
+}

@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -85,17 +84,6 @@ public class IllustrationService {
 		illustration.setFinishDate(finishDate);
 		
 		illustrationRepository.save(illustration);
-	}
-	
-	@Transactional
-	public void categoryDelete(Integer id) {
-		Category category = categoryRepository.getReferenceById(id);
-		List<Illustration> illustrationCategoryA = illustrationRepository.findByCategoryA(category);
-		
-		for (Illustration illustration : illustrationCategoryA) {
-	        illustration.setCategoryA(null);
-	        illustrationRepository.save(illustration);
-	    }
 	}
 	
 	public String generateNewFileName(String fileName) {

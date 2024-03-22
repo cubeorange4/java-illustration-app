@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		
+		<div th:replace="~{fragment :: styles}"></div>
+		
+		<title>IllustApp</title>
+	</head>
+	<body>
+		<div class="app-wrapper">
+			<!-- ヘッダー -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<main>
+				<div class="container pt-4 pb-5 samuraitravel-container">
+					<div th:if="${param.loggedIn}" class="alert alert-info">
+						ログインしました。
+					</div>
+					
+					<div th:if="${param.loggedOut}" class="alert alert-info">
+						ログアウトしました。
+					</div>
+					
+					<div th:if="${successMessage}" class="alert alert-info">
+						<span th:text="${successMessage}"></span>
+					</div>
+				</div>
+				<a th:href="@{/illustration}">イラスト一覧</a>
+				
+				<a th:href="@{/illustration/register}">イラスト登録</a>
+				
+				<a th:href="@{/category}">タグ一覧</a>
+			</main>
+			<!-- フッター -->
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+		
+		<!-- Bootstrap -->
+		<div th:replace="~{fragment :: scripts}"></div>
+	</body>
+</html>

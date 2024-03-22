@@ -1,0 +1,9 @@
+package com.example.illustrationApp.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.illustrationApp.entity.AlbumInfo;
+
+public interface AlbumInfoRepository extends JpaRepository<AlbumInfo, Integer>{
+	public AlbumInfo findByAlbum(Integer album);
+}

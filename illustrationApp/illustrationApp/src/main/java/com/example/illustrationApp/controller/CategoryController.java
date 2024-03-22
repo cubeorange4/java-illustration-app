@@ -22,19 +22,16 @@ import com.example.illustrationApp.form.CategoryRegisterForm;
 import com.example.illustrationApp.repository.CategoryRepository;
 import com.example.illustrationApp.security.UserDetailsImpl;
 import com.example.illustrationApp.service.CategoryService;
-import com.example.illustrationApp.service.IllustrationService;
 
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
 	private final CategoryRepository categoryRepository;
 	private final CategoryService categoryService;
-	private final IllustrationService illustrationService;
 	
-	public CategoryController(CategoryRepository categoryRepository, CategoryService categoryService, IllustrationService illustrationService){
+	public CategoryController(CategoryRepository categoryRepository, CategoryService categoryService){
 		this.categoryRepository = categoryRepository;
 		this.categoryService = categoryService;
-		this.illustrationService = illustrationService;
 	}
 	
 	@GetMapping
@@ -71,8 +68,6 @@ public class CategoryController {
 	@PostMapping("/{id}/delete")
 	public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
 		categoryRepository.deleteById(id);
-		
-		illustrationService.categoryDelete(id);
 		
 		return "redirect:/category";
 	}

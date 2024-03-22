@@ -1,0 +1,128 @@
+CREATE TABLE IF NOT EXISTS category(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	user_id INT NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS illustration(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	user_id INT NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	image_name VARCHAR(255),
+	category_a INT,
+	category_b INT,
+	category_c INT,
+	category_d INT,
+	category_e INT,
+	description VARCHAR(255),
+	start_date DATE NOT NULL,
+	finish_date DATE NOT NULL,
+	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY (category_a) REFERENCES category (id),
+	FOREIGN KEY (category_b) REFERENCES category (id),
+	FOREIGN KEY (category_c) REFERENCES category (id),
+	FOREIGN KEY (category_d) REFERENCES category (id),
+	FOREIGN KEY (category_e) REFERENCES category (id)
+);
+
+CREATE TABLE IF NOT EXISTS roles (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR (50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	role_id INT NOT NULL,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
+	enabled BOOLEAN NOT NULL,
+	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY (role_id) REFERENCES roles (id)
+);
+
+ALTER TABLE illustration
+MODIFY category_a INT NULL,
+MODIFY category_b INT NULL,
+MODIFY category_c INT NULL,
+MODIFY category_d INT NULL,
+MODIFY category_e INT NULL;
+
+-- category_a
+IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE CONSTRAINT_SCHEMA = 'your_database_name'
+        AND TABLE_NAME = 'illustration'
+        AND CONSTRAINT_NAME = 'fk_category_a'
+)
+THEN
+    ALTER TABLE illustration
+    ADD CONSTRAINT fk_category_a
+    FOREIGN KEY (category_a) REFERENCES category (id)
+    ON DELETE SET NULL;
+END IF;
+
+-- category_b
+IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE CONSTRAINT_SCHEMA = 'your_database_name'
+        AND TABLE_NAME = 'illustration'
+        AND CONSTRAINT_NAME = 'fk_category_b'
+)
+THEN
+    ALTER TABLE illustration
+    ADD CONSTRAINT fk_category_b
+    FOREIGN KEY (category_b) REFERENCES category (id)
+    ON DELETE SET NULL;
+END IF;
+
+-- category_c
+IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE CONSTRAINT_SCHEMA = 'your_database_name'
+        AND TABLE_NAME = 'illustration'
+        AND CONSTRAINT_NAME = 'fk_category_c'
+)
+THEN
+    ALTER TABLE illustration
+    ADD CONSTRAINT fk_category_c
+    FOREIGN KEY (category_c) REFERENCES category (id)
+    ON DELETE SET NULL;
+END IF;
+
+-- category_d
+IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE CONSTRAINT_SCHEMA = 'your_database_name'
+        AND TABLE_NAME = 'illustration'
+        AND CONSTRAINT_NAME = 'fk_category_d'
+)
+THEN
+    ALTER TABLE illustration
+    ADD CONSTRAINT fk_category_d
+    FOREIGN KEY (category_d) REFERENCES category (id)
+    ON DELETE SET NULL;
+END IF;
+
+-- category_e
+IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+    WHERE CONSTRAINT_SCHEMA = 'your_database_name'
+        AND TABLE_NAME = 'illustration'
+        AND CONSTRAINT_NAME = 'fk_category_e'
+)
+THEN
+    ALTER TABLE illustration
+    ADD CONSTRAINT fk_category_e
+    FOREIGN KEY (category_e) REFERENCES category (id)
+    ON DELETE SET NULL;
+END IF;
