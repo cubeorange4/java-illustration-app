@@ -86,7 +86,6 @@ INDEX VERSION 1.134+C:\Users\cubeo\Desktop\プログラミング\オリジナルアプリ\illus
 1980109104.index
 414097601.index
 1644720261.index
-2589455981.index
 3573765281.index
 3736181504.index
 940176812.index

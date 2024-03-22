@@ -1623,3 +1623,5 @@
 2024-03-22 12:17:14,024 [Worker-170: illustrationApp - IllustrationAppApplication の起動] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 25 resources from src\main\resources to target\classes
 2024-03-22 12:17:14,047 [Worker-170: illustrationApp - IllustrationAppApplication の起動] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\cubeo\Desktop\プログラミング\オリジナルアプリ\illustrationApp\illustrationApp\src\test\resources
 2024-03-22 12:24:23,834 [Worker-175: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-03-22 12:24:23,849 [Worker-175: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 25 resources from src\main\resources to target\classes
+2024-03-22 12:24:23,871 [Worker-175: ビルド] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\cubeo\Desktop\プログラミング\オリジナルアプリ\illustrationApp\illustrationApp\src\test\resources

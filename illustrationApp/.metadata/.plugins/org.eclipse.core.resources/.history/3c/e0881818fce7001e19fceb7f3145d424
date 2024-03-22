@@ -68,10 +68,8 @@ public class AlbumController {
 	}
 	
 	@GetMapping("/album/{id}")
-	public String show(@PathVariable(name = "id") Integer albumId, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, Model model) {
-		Album album = albumRepository.getReferenceById(albumId);
-		Page<AlbumInfo> albumInfo = albumInfoRepository.findByAlbumOrderByCreatedAtDesc(album, pageable);
-		
+	public String show(@PathVariable(name = "id") Album albumId, Model model) {
+		AlbumInfo albumInfo = albumInfoRepository.findByAlbum(albumId);
 		
 		model.addAttribute("albumInfo", albumInfo);
 		
