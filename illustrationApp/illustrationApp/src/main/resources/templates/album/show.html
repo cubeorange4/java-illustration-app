@@ -25,6 +25,10 @@
 						
 						<h1 class="text-center mb-3">アルバム</h1>
 						
+						<div class="d-flex justify-content-end">
+							<a th:href="@{/album/__${album.getId()}__/edit}" class="btn shadow-sm mb-3 app-btn">編集</a>
+						</div>
+						
 						<div th:if="${successMessage}" class="alert alert-info">
 							<span th:text="${successMessage}"></span>
 						</div>

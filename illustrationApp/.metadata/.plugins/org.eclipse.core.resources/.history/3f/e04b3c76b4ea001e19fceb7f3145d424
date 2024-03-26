@@ -1,0 +1,96 @@
+package com.example.illustrationApp.controller;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.illustrationApp.entity.Album;
+import com.example.illustrationApp.entity.AlbumInfo;
+import com.example.illustrationApp.entity.Illustration;
+import com.example.illustrationApp.entity.User;
+import com.example.illustrationApp.form.AlbumInfoRegisterForm;
+import com.example.illustrationApp.form.AlbumRegisterForm;
+import com.example.illustrationApp.repository.AlbumInfoRepository;
+import com.example.illustrationApp.repository.AlbumRepository;
+import com.example.illustrationApp.repository.IllustrationRepository;
+import com.example.illustrationApp.security.UserDetailsImpl;
+import com.example.illustrationApp.service.AlbumService;
+
+@Controller
+public class AlbumController {
+	private final AlbumRepository albumRepository;
+	private final AlbumService albumService;
+	private final AlbumInfoRepository albumInfoRepository;
+	private final IllustrationRepository illustrationRepository;
+	
+	public AlbumController(AlbumRepository albumRepository, AlbumService albumService, AlbumInfoRepository albumInfoRepository, IllustrationRepository illustrationRepository){
+		this.albumRepository = albumRepository;
+		this.albumService = albumService;
+		this.albumInfoRepository = albumInfoRepository;
+		this.illustrationRepository = illustrationRepository;
+	}
+	
+	@GetMapping("/album")
+	public String index(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, Model model) {		
+		User user = userDetailsImpl.getUser();
+		Page<Album> album = albumRepository.findByUserOrderByCreatedAtDesc(user, pageable);
+		model.addAttribute("album", album);
+		
+		return "album/index";
+	}
+	
+	@GetMapping("/album/register")
+	public String register(Model model) {
+		model.addAttribute("albumRegisterForm", new AlbumRegisterForm());
+		
+		return "album/register";
+	}
+	
+	@PostMapping("/album/create")
+	public String create(@ModelAttribute @Validated AlbumRegisterForm albumRegisterForm, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		User user = userDetailsImpl.getUser();
+		
+		if(bindingResult.hasErrors()) {
+			return "/album/register";
+		}
+		
+		albumService.create(albumRegisterForm, user);
+		
+		redirectAttributes.addFlashAttribute("successMessage", "アルバムを作成しました。");
+		
+		return "redirect:/album";
+	}
+	
+	@GetMapping("/album/{id}")
+	public String show(@PathVariable(name = "id") Integer albumId, @PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable, Model model) {
+		Album album = albumRepository.getReferenceById(albumId);
+		Page<AlbumInfo> albumInfo = albumInfoRepository.findByAlbumOrderByCreatedAtDesc(album, pageable);
+		
+		
+		model.addAttribute("albumInfo", albumInfo);
+		
+		return "/album/show";
+	}
+	
+	@GetMapping("/album/{id}/edit")
+	public String edit(@PathVariable(name = "id") Integer albumId, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl, Model model, Pageable pageable) {
+		User user = userDetailsImpl.getUser();
+		Page<Illustration> illustration = illustrationRepository.findByUserOrderByCreatedAtDesc(user, pageable);
+		
+		model.addAttribute("albumInfoRegister", new AlbumInfoRegisterForm());
+		
+		
+		return "/album/{id}/edit";
+	}
+}

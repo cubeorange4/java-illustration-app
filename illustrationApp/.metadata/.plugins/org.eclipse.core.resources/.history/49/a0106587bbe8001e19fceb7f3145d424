@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<div th:replace="~{fragment :: meta}"></div>
+		
+		<div th:replace="~{fragment :: styles}"></div>
+		
+		<title>アルバム</title>
+	</head>
+	<body>
+		<div class="app-wrapper">
+			<!-- ヘッダー -->
+			<div th:replace="~{fragment :: header}"></div>
+			
+			<main>
+				<div class="container pt-4 pd-5 app-container">
+					<div class="row justify-content-center">
+						<nav class="mb-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0">
+								<li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
+								<li class="breadcrumb-item active" aria-current="page">アルバム</li>
+							</ol>
+						</nav>
+						
+						<h1 class="text-center mb-3">アルバム</h1>
+						
+						<div class="d-flex justify-content-end">
+							<a th:href="@{/album/register}" class="btn shadow-sm mb-3 app-btn">作成</a>
+						</div>
+						
+						<div th:if="${successMessage}" class="alert alert-info">
+							<span th:text="${successMessage}"></span>
+						</div>
+						
+						<div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">
+							<div class="col">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">名前</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="album : ${album}">
+											<td><a th:href="@{/album/__${album.getId()}__}" th:text="${album.getName()}" class="link-dark app-card-link"></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+			<!-- フッター -->
+			<div th:replace="~{fragment :: footer}"></div>
+		</div>
+		
+		<!-- Bootstrap -->
+		<div th:replace="~{fragment :: scripts}"></div>
+	</body>
+</html>

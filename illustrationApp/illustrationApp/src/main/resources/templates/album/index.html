@@ -31,14 +31,18 @@
 						<div th:if="${successMessage}" class="alert alert-info">
 							<span th:text="${successMessage}"></span>
 						</div>
-						
-						<div class="row row-cols-lg-5 row-cols-2 g-3 mb-5">
-							<div class="col" th:each="album : ${album}">
-								<a th:href="@{/album/__${album.getId()}__}" th:text="${album.getName()}" class="link-dark app-card-link">
-									
-								</a>
-							</div>
-						</div>
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">名前</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="album : ${album}">
+									<td><a th:href="@{/album/__${album.getId()}__}" th:text="${album.getName()}" class="link-dark app-card-link"></a></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</main>
