@@ -62,7 +62,7 @@ public class AlbumController {
 		User user = userDetailsImpl.getUser();
 		
 		if(bindingResult.hasErrors()) {
-			return "/album/register";
+			return "album/register";
 		}
 		
 		albumService.create(albumRegisterForm, user);
@@ -81,17 +81,31 @@ public class AlbumController {
 		model.addAttribute("albumInfo", albumInfo);
 		model.addAttribute("album", album);
 		
-		return "/album/show";
+		return "album/show";
 	}
 	
 	@GetMapping("/album/{id}/edit")
-	public String edit(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, Model model, Pageable pageable) {
+	public String edit(@PathVariable(name = "id") Integer albumId, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl, Model model, Pageable pageable) {
 		User user = userDetailsImpl.getUser();
+		Album album = albumRepository.getReferenceById(albumId);
 		Page<Illustration> illustration = illustrationRepository.findByUserOrderByCreatedAtDesc(user, pageable);
 		
-		model.addAttribute("albumInfoRegister", new AlbumInfoRegisterForm());
+		model.addAttribute("album", album);
+		model.addAttribute("albumInfoRegisterForm", new AlbumInfoRegisterForm());
 		model.addAttribute("illustration", illustration);
 		
-		return "/album/edit";
+		return "album/edit";
+	}
+	
+	@PostMapping("/album/{id}/infoCreate")
+	public String infoCreate(@PathVariable(name = "id") Integer albumId, @ModelAttribute @Validated AlbumInfoRegisterForm albumInfoRegisterForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		Album album = albumRepository.getReferenceById(albumId);
+		
+		
+		albumService.infoCreate(album, albumInfoRegisterForm);
+		
+		redirectAttributes.addFlashAttribute("successMessage", "アルバムに追加しました。");
+		
+		return "redirect:/album/show";
 	}
 }

@@ -40,8 +40,8 @@
 								<tr th:each="illustration : ${illustration}">
 									<td th:text="${illustration.getName()}"></td>
 									<td>
-										<form method="post" th:action="@{/album/infoCreate}" th:object=${albumInfoRegisterForm}>
-											<input type="hidden" name="illustration" th:value="${illustration.getId()}">
+										<form method="post" th:action="@{/album/__${album.getId()}__/infoCreate}" th:object="${albumInfoRegisterForm}">
+											<input type="hidden" th:field="*{illustrationId}" name="illustration" th:value="${illustration.getId()}">
 											<button type="submit" class="btn">追加</button>
 										</form>
 									</td>
